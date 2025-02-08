@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cookie Frenzy</title>
+
+    <script type="module">
+        import { Analytics } from "https://esm.sh/@vercel/analytics/react";
+        document.addEventListener("DOMContentLoaded", () => {
+            const analyticsContainer = document.createElement("div");
+            analyticsContainer.innerHTML = `<Analytics />`;
+            document.body.appendChild(analyticsContainer);
+        });
+    </script>
+
     <style>
         body { 
             text-align: center; 
@@ -49,10 +59,7 @@
         button:active { 
             transform: scale(0.95); 
         }
-        #login-container, #game-container, #register-container {
-            display: none;
-        }
-
+        
         /* New Design for Login and Register */
         .container {
             background: rgba(0, 0, 0, 0.7);
@@ -63,12 +70,10 @@
             color: white;
             text-align: center;
         }
-
         .input-group {
             margin: 10px 0;
             position: relative;
         }
-
         .input-group input {
             width: 100%;
             padding: 12px 20px;
@@ -80,12 +85,10 @@
             outline: none;
             transition: all 0.3s ease;
         }
-
         .input-group input:focus {
             border-color: #7F5AF0;
             box-shadow: 0 0 10px #7F5AF0;
         }
-
         .btn {
             width: 100%;
             padding: 12px;
@@ -98,25 +101,40 @@
             transition: 0.3s ease;
             margin-top: 20px;
         }
-
         .btn:hover {
             background: linear-gradient(145deg, #333, #444);
             transform: scale(1.05);
         }
-
         .btn:active {
             transform: scale(0.95);
         }
-
         .toggle-link {
             margin-top: 15px;
             color: #7F5AF0;
             text-decoration: none;
             font-size: 16px;
         }
-
         .toggle-link:hover {
             text-decoration: underline;
+        }
+        
+        .shop-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+        }
+        .watermark {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            font-size: 14px;
+            color: #aaa;
         }
     </style>
 </head>
@@ -147,7 +165,7 @@
         <p>Already have an account? <button class="toggle-link" onclick="showLogin()">Login</button></p>
     </div>
 
-    <div id="game-container">
+    <div id="game-container" style="display:none;">
         <h1>Cookie Frenzy</h1>
         <img id="cookie" src="https://png.pngtree.com/png-vector/20201010/ourmid/pngtree-cute-cartoon-clipart-butter-chocolate-biscuit-cookie-clipart-png-image_2360136.jpg" alt="Cookie">
         <p id="score">Cookies: 0</p>
@@ -157,6 +175,14 @@
         <button id="shopkeeper">Shop</button>
     </div>
     
+    <div id="shop" class="shop-container">
+        <h2>Shop</h2>
+        <p>Items for sale...</p>
+        <button onclick="closeShop()">Close</button>
+    </div>
+
+    <p class="watermark">Made with Reaper Nine Studios and Zulu Studios Inc.</p>
+
     <script>
         let cookies = 0;
         let perClick = 1;
@@ -271,6 +297,14 @@
                 let userData = { cookies: cookies, perClick: perClick, clickers: clickers, tickers: tickers };
                 localStorage.setItem(currentUser, JSON.stringify(userData));
             }
+        }
+
+        document.getElementById('shopkeeper').addEventListener('click', function() {
+            document.getElementById('shop').style.display = 'block';
+        });
+        
+        function closeShop() {
+            document.getElementById('shop').style.display = 'none';
         }
     </script>
 </body>
